@@ -1,26 +1,538 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════
+   Mana Katha Cafe & Restaurant — Premium Design System
+   Royal Blue / Gold / Warm White — Rooftop Café Ambience
+   ═══════════════════════════════════════════════════════ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ─── Core Palette (Warm White + Royal Blue + Gold) ─── */
+  --oasis-bg:          #F7F7F5;
+  --oasis-surface:     #EDEBE7;
+  --oasis-surface-2:   #E2DFD9;
+  --oasis-accent:      #334EAC;
+  --oasis-accent-soft: #4A63B8;
+  --oasis-text:        #1A1A2E;
+  --oasis-muted:       #6B7280;
+  --oasis-border:      #D1CFC9;
+  --oasis-gold:        #FFBE0B;
+  --oasis-gold-warm:   #D4A373;
+
+  /* ─── RGB Channels (for rgba() usage) ─── */
+  --oasis-bg-rgb:          247, 247, 245;
+  --oasis-surface-rgb:     237, 235, 231;
+  --oasis-surface-2-rgb:   226, 223, 217;
+  --oasis-accent-rgb:      51, 78, 172;
+  --oasis-accent-soft-rgb: 74, 99, 184;
+  --oasis-text-rgb:        26, 26, 46;
+  --oasis-muted-rgb:       107, 114, 128;
+  --oasis-border-rgb:      209, 207, 201;
+  --oasis-gold-rgb:        255, 190, 11;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-oasis-bg:          var(--oasis-bg);
+  --color-oasis-surface:     var(--oasis-surface);
+  --color-oasis-surface-2:   var(--oasis-surface-2);
+  --color-oasis-accent:      var(--oasis-accent);
+  --color-oasis-accent-soft: var(--oasis-accent-soft);
+  --color-oasis-text:        var(--oasis-text);
+  --color-oasis-muted:       var(--oasis-muted);
+  --color-oasis-border:      var(--oasis-border);
+  --color-oasis-gold:        var(--oasis-gold);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --font-sans:    var(--font-inter);
+  --font-serif:   var(--font-playfair);
+  --font-display: var(--font-cormorant);
+
+  --animate-shimmer:     shimmer 3s infinite;
+  --animate-pulse-glow:  pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-grain:       grain 8s steps(10) infinite;
+  --animate-float:       float 6s ease-in-out infinite;
+  --animate-glow-pulse:  glow-pulse 4s ease-in-out infinite;
+
+  @keyframes shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  @keyframes pulse-glow {
+    0%        { transform: scale(0.8); opacity: 1; }
+    80%, 100% { transform: scale(2.5); opacity: 0; }
+  }
+
+  @keyframes grain {
+    0%   { transform: translate(0, 0); }
+    10%  { transform: translate(-5%, -10%); }
+    20%  { transform: translate(-15%, 5%); }
+    30%  { transform: translate(7%, -25%); }
+    40%  { transform: translate(-5%, 25%); }
+    50%  { transform: translate(-15%, 10%); }
+    60%  { transform: translate(15%, 0%); }
+    70%  { transform: translate(0%, 15%); }
+    80%  { transform: translate(3%, 35%); }
+    90%  { transform: translate(-10%, 10%); }
+    100% { transform: translate(0, 0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%      { transform: translateY(-20px); }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50%      { opacity: 0.6; transform: scale(1.1); }
   }
 }
 
+/* ─── Smooth Scroll ─── */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  background: var(--oasis-bg);
+  color: var(--oasis-text);
+}
+
+/* Custom cursor only on pointer-fine (mouse) devices */
+@media (pointer: fine) {
+  body { cursor: none; }
+  a, button { cursor: none; }
+}
+
+/* ─── Themed Scrollbar ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--oasis-bg); }
+::-webkit-scrollbar-thumb { background: rgba(var(--oasis-accent-rgb), 0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(var(--oasis-accent-rgb), 0.4); }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--oasis-accent-rgb), 0.2) var(--oasis-bg);
+}
+
+/* ─── Film Grain Overlay (very subtle texture) ─── */
+.grain-overlay {
+  position: relative;
+}
+
+.grain-overlay::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+  animation: grain 8s steps(10) infinite;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.20;
+  mix-blend-mode: multiply;
+}
+
+/* ─── 3D Frosted Glass Card ─── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.78);
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.0) 45%,
+      rgba(0, 0, 0, 0.015) 100%
+    );
+  border-radius: 20px;
+  border: 0.5px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(40px) saturate(1.8);
+  -webkit-backdrop-filter: blur(40px) saturate(1.8);
+  box-shadow:
+    /* tight contact shadow */
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    /* medium depth */
+    0 4px 12px rgba(0, 0, 0, 0.05),
+    /* wide ambient */
+    0 12px 36px rgba(0, 0, 0, 0.07),
+    /* top specular highlight */
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.9),
+    /* bottom dark edge */
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card-strong {
+  background: rgba(255, 255, 255, 0.85);
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0.0) 45%,
+      rgba(0, 0, 0, 0.02) 100%
+    );
+  border-radius: 20px;
+  border: 0.5px solid rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(60px) saturate(2.0);
+  -webkit-backdrop-filter: blur(60px) saturate(2.0);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 6px 16px rgba(0, 0, 0, 0.06),
+    0 16px 48px rgba(0, 0, 0, 0.08),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Glass card hover — lift + deepen shadow */
+.glass-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    0 6px 16px rgba(0, 0, 0, 0.07),
+    0 20px 50px rgba(0, 0, 0, 0.10),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+}
+
+.glass-card-strong:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 8px 20px rgba(0, 0, 0, 0.08),
+    0 24px 56px rgba(0, 0, 0, 0.11),
+    inset 0 1.5px 0 rgba(255, 255, 255, 1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+}
+
+/* ─── Apple-style Frosted Glass Pill (with 3D depth) ─── */
+.glass-pill {
+  background: rgba(255, 255, 255, 0.6);
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.0) 50%,
+      rgba(0, 0, 0, 0.02) 100%
+    );
+  border: 0.5px solid rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 4px 12px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.glass-pill:hover {
+  background: rgba(255, 255, 255, 0.78);
+  transform: translateY(-1px);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.08),
+    0 8px 20px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+}
+
+.glass-pill:active {
+  transform: translateY(0.5px);
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 0px 2px rgba(0, 0, 0, 0.06),
+    inset 0 1px 3px rgba(0, 0, 0, 0.06),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* ─── 3D Frosted Glass Input ─── */
+.glass-input {
+  background: rgba(255, 255, 255, 0.7);
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      transparent 40%,
+      rgba(0, 0, 0, 0.01) 100%
+    );
+  border: 0.5px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 3px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+  transition: all 0.25s ease;
+}
+
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(var(--oasis-accent-rgb), 0.3);
+  box-shadow:
+    0 0 0 4px rgba(var(--oasis-accent-rgb), 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 4px 12px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+}
+
+/* ─── 3D Frosted Glass Circle ─── */
+.glass-circle {
+  background: rgba(255, 255, 255, 0.72);
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.02) 100%
+    );
+  border: 0.5px solid rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+}
+
+/* ─── 3D Tilt Card ─── */
+.tilt-card-wrapper {
+  transform-style: preserve-3d;
+}
+
+.tilt-scan-line {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.12),
+    transparent
+  );
+  background-size: 100% 40%;
+  background-repeat: no-repeat;
+  animation: tiltScanMove 2.5s linear infinite;
+}
+
+@keyframes tiltScanMove {
+  0% { background-position: 0% -40%; }
+  100% { background-position: 0% 140%; }
+}
+
+/* ─── 3D Frosted Glass Capsule Nav ─── */
+.liquid-glass-capsule {
+  background: rgba(255, 255, 255, 0.78);
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0.0) 45%,
+      rgba(0, 0, 0, 0.015) 100%
+    );
+  border-radius: 9999px;
+  border: 0.5px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(50px) saturate(1.8);
+  -webkit-backdrop-filter: blur(50px) saturate(1.8);
+  box-shadow:
+    /* tight contact shadow */
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    /* medium depth shadow */
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    /* wide ambient shadow */
+    0 12px 40px rgba(0, 0, 0, 0.08),
+    /* top specular highlight — the "lit top edge" */
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.9),
+    /* bottom dark edge — the "underside" */
+    inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+}
+
+.liquid-glass-capsule--scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(60px) saturate(2.0);
+  -webkit-backdrop-filter: blur(60px) saturate(2.0);
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.07),
+    0 6px 16px rgba(0, 0, 0, 0.07),
+    0 16px 48px rgba(0, 0, 0, 0.09),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* ─── 3D Depth Button (Primary CTA) ─── */
+.shimmer-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* 3D depth: top highlight + bottom dark edge + lifted shadow */
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.05) 40%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.05) 80%,
+      rgba(0, 0, 0, 0.12) 100%
+    );
+  box-shadow:
+    /* outer lift shadow (3D float) */
+    0 2px 4px rgba(0, 0, 0, 0.12),
+    0 6px 16px rgba(var(--oasis-accent-rgb), 0.20),
+    0 12px 32px rgba(var(--oasis-accent-rgb), 0.10),
+    /* top specular edge — bright highlight on the "top face" */
+    inset 0 1px 0 rgba(255, 255, 255, 0.30),
+    /* bottom dark edge — the "underside" of the 3D shape */
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+}
+
+.shimmer-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.14),
+    0 10px 24px rgba(var(--oasis-accent-rgb), 0.28),
+    0 20px 48px rgba(var(--oasis-accent-rgb), 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.shimmer-btn:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.15),
+    0 2px 6px rgba(var(--oasis-accent-rgb), 0.15),
+    inset 0 2px 4px rgba(0, 0, 0, 0.15),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.05) 0%,
+      transparent 30%,
+      rgba(255, 255, 255, 0.03) 70%,
+      rgba(255, 255, 255, 0.10) 100%
+    );
+}
+
+.shimmer-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.10) 50%,
+    transparent 100%
+  );
+  transform: rotate(30deg);
+  animation: shimmer 3s infinite;
+}
+
+/* ─── Accent Divider (kept for backward compat, no longer used in page.tsx) ─── */
+.accent-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--oasis-accent-rgb), 0.12), transparent);
+  opacity: 0.60;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Premium Scroll-Driven Section System
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Section Wrapper ─── */
+.section-wrapper {
+  position: relative;
+  /* Start invisible — JS controls opacity/transform */
+  opacity: 0;
+}
+
+.section-wrapper--visible {
+  /* IntersectionObserver has fired */
+}
+
+.section-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Warm Gold Glow Orb (between-section ambient light) ─── */
+.section-glow {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 190, 11, 0.08) 0%,
+    rgba(255, 190, 11, 0.04) 35%,
+    rgba(212, 163, 115, 0.02) 60%,
+    transparent 80%
+  );
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.8s ease;
+}
+
+/* ─── Subtle section separator (replaces accent-divider) ─── */
+.section-wrapper + .section-wrapper {
+  margin-top: -1px;
+}
+
+.section-wrapper + .section-wrapper::before {
+  content: '';
+  display: block;
+  height: 1px;
+  margin: 0 auto 0;
+  max-width: 200px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--oasis-accent-rgb), 0.08),
+    transparent
+  );
+  opacity: 0.5;
+}
+
+/* ─── Mobile: reduce scale effect, keep fade ─── */
+@media (max-width: 768px) {
+  .section-glow {
+    width: 300px;
+    height: 150px;
+    top: -40px;
+    filter: blur(40px);
+  }
+}
+
+/* ─── Text Selection ─── */
+::selection {
+  background: rgba(255, 190, 11, 0.2);
+  color: var(--oasis-text);
+}
+
+/* ─── Glow Dot — warm gold glow ─── */
+.glow-dot {
+  background: var(--oasis-gold) !important;
+  box-shadow:
+    0 0 6px rgba(255, 190, 11, 0.5),
+    0 0 16px rgba(255, 190, 11, 0.25);
+}
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
