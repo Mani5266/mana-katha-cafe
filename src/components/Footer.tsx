@@ -39,7 +39,7 @@ export default function Footer() {
   const isInView = useInView(ref, { margin: "-60px", once: true });
 
   return (
-    <footer ref={ref} className="relative z-10 py-16 px-6" style={{ background: 'linear-gradient(to bottom, transparent, rgba(51, 78, 172, 0.03))' }}>
+    <footer ref={ref} className="relative z-10 py-16 px-4 sm:px-6" style={{ background: 'linear-gradient(to bottom, transparent, rgba(51, 78, 172, 0.03))' }}>
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-4 gap-12">
           {/* Brand (2 columns) */}

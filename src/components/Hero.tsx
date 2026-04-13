@@ -30,7 +30,7 @@ export default function Hero() {
 
       <motion.div
         style={{ opacity, y, scale }}
-        className="relative z-10 text-center px-6 max-w-5xl mx-auto"
+        className="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto"
       >
         {/* Badge */}
         <motion.div
@@ -91,7 +91,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="glass-card inline-flex items-center gap-6 md:gap-10 px-8 py-4"
+          className="glass-card inline-flex items-center gap-4 sm:gap-6 md:gap-10 px-5 sm:px-8 py-4"
         >
           {stats.map((stat, i) => (
             <motion.div
@@ -99,16 +99,16 @@ export default function Hero() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9 + i * 0.12 }}
-              className="flex items-center gap-6 md:gap-10"
+              className="flex items-center gap-4 sm:gap-6 md:gap-10"
             >
               {i > 0 && (
                 <div className="w-px h-8 bg-white/30" />
               )}
               <div className="text-center">
-                <div className="font-serif text-lg md:text-xl font-bold" style={{ color: '#D4A373' }}>
+                <div className="font-serif text-base sm:text-lg md:text-xl font-bold" style={{ color: '#D4A373' }}>
                   {stat.value}
                 </div>
-                <div className="text-[10px] tracking-wider uppercase text-oasis-muted mt-1">
+                <div className="text-[9px] sm:text-[10px] tracking-wider uppercase text-oasis-muted mt-1">
                   {stat.label}
                 </div>
               </div>

@@ -16,7 +16,7 @@ export default function SocialProof() {
   const isInView = useInView(ref, { margin: "-60px", once: true });
 
   return (
-    <section ref={ref} className="relative z-10 py-16 px-6">
+    <section ref={ref} className="relative z-10 py-16 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
         {proofs.map((proof, i) => (
           <motion.div

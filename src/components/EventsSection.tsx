@@ -44,7 +44,7 @@ export default function EventsSection() {
   const isInView = useInView(ref, { margin: "-60px", once: true });
 
   return (
-    <section ref={ref} id="events" className="relative z-10 py-20 px-6">
+    <section ref={ref} id="events" className="relative z-10 py-20 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div

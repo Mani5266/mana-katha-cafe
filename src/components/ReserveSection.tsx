@@ -15,7 +15,7 @@ export default function ReserveSection() {
   };
 
   return (
-    <section ref={ref} id="reserve" className="relative z-10 py-20 px-6">
+    <section ref={ref} id="reserve" className="relative z-10 py-20 px-4 sm:px-6">
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-oasis-accent/[0.03] blur-[120px] pointer-events-none" />
 

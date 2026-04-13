@@ -30,7 +30,7 @@ export default function BrandEssence() {
   const isInView = useInView(ref, { margin: "-100px", once: true });
 
   return (
-    <section ref={ref} className="relative z-10 py-20 px-6">
+    <section ref={ref} className="relative z-10 py-20 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div
