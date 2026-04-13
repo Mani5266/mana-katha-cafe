@@ -16,7 +16,7 @@ import SectionWrapper from "@/components/SectionWrapper";
 
 export default function Home() {
   return (
-    <div className="grain-overlay">
+    <div className="grain-overlay min-h-screen w-full">
       <CustomCursor />
       <BackgroundCanvas />
       <Navbar />
