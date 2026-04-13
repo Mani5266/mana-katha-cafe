@@ -114,8 +114,8 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Mobile Nav */}
-          <div className="flex md:hidden items-center justify-between px-5 h-12 w-[calc(100vw-2rem)] relative z-10">
+          {/* Mobile Nav — centered capsule */}
+          <div className="flex md:hidden items-center justify-between px-4 h-11 w-auto max-w-[280px] mx-auto relative z-10">
             <a href="#" className="flex items-center gap-2">
               <div
                 className="w-7 h-7 rounded-full flex items-center justify-center"
@@ -136,6 +136,14 @@ export default function Navbar() {
               </span>
             </a>
 
+            <div
+              className="w-px h-4 mx-3"
+              style={{
+                background:
+                  "linear-gradient(to bottom, transparent, rgba(var(--oasis-accent-rgb), 0.15), transparent)",
+              }}
+            />
+
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="w-8 h-8 flex flex-col items-center justify-center gap-1.5"
@@ -147,11 +155,11 @@ export default function Navbar() {
                     ? { rotate: 45, y: 5 }
                     : { rotate: 0, y: 0 }
                 }
-                className="block w-5 h-[1.5px] bg-oasis-text origin-center"
+                className="block w-4 h-[1.5px] bg-oasis-text origin-center"
               />
               <motion.span
                 animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
-                className="block w-5 h-[1.5px] bg-oasis-text"
+                className="block w-4 h-[1.5px] bg-oasis-text"
               />
               <motion.span
                 animate={
@@ -159,7 +167,7 @@ export default function Navbar() {
                     ? { rotate: -45, y: -5 }
                     : { rotate: 0, y: 0 }
                 }
-                className="block w-5 h-[1.5px] bg-oasis-text origin-center"
+                className="block w-4 h-[1.5px] bg-oasis-text origin-center"
               />
             </button>
           </div>
